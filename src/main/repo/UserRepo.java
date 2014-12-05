@@ -16,12 +16,19 @@ public class UserRepo {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.saveOrUpdate(user);
+//        int id = user.getId();
         transaction.commit();
         session.close();
     }
     public User findByMail(String mail) {
         Session session = sessionFactory.openSession();
         User user = (User) session.createQuery("from User U where mail= :mail").setParameter("mail",mail).uniqueResult();
+        return user;
+    }
+
+    public User findById(int id) {
+        Session session = sessionFactory.openSession();
+        User user = (User) session.createQuery("from User U where id = :id").setParameter("id",id).uniqueResult();
         return user;
     }
 }

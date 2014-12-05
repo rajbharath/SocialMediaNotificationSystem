@@ -24,4 +24,8 @@ public class UserService {
 //        user.setName("bharath");
         return userRepo.findByMail(mail);
     }
+
+    public User findById(int id) {
+        return userRepo.findById(id);
+    }
 }
