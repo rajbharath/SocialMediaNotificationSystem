@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @ComponentScan(basePackages = "src.main")
 @RequestMapping(value = "/user")
@@ -16,11 +18,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST)
     public User create(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "mail", required = true) String mail) {
-        User user = new User();
-        user.setName(name);
-        user.setMail(mail);
-        userService.create(user);
-        return findById(user.getId());
+        return userService.create(name, mail);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -31,5 +29,10 @@ public class UserController {
     @RequestMapping(value = "/{id}")
     public User findById(@PathVariable int id) {
         return userService.findById(id);
+    }
+
+    @RequestMapping(value = "/")
+    public List<User> findAll(){
+        return userService.findAll();
     }
 }
