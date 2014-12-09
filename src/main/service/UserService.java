@@ -36,6 +36,9 @@ public class UserService {
     }
 
     public List<User> findAll() {
+        List<User> users = userRepo.findAll();
+        for (User user : users)
+            System.out.println(user.getName());
         return userRepo.findAll();
     }
 }

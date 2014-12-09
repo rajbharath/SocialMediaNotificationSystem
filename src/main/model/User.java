@@ -4,6 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
@@ -23,9 +24,10 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinTable(name = "friendship", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "friend_id")})
-    private Collection<User> friends;
+    private Collection<User> friends = new ArrayList<User>();
+
 
     public User() {
     }
@@ -61,4 +63,5 @@ public class User {
     public void setFriends(Collection<User> friends) {
         this.friends = friends;
     }
+
 }

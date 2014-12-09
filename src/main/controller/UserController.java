@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @ComponentScan(basePackages = "src.main")
@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/")
-    public List<User> findAll(){
+    public Collection<User> findAll(){
         return userService.findAll();
     }
 }
