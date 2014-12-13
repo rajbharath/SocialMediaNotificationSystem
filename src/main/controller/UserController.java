@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @ComponentScan(basePackages = "src.main")
@@ -17,13 +18,14 @@ public class UserController {
     UserService userService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public User create(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "mail", required = true) String mail) {
-        return userService.create(name, mail);
+    public User create(@RequestParam(value = "name", required = true) String name, @RequestParam(value = "mail", required = true) String mail,@RequestParam(value = "password",required = true) String password) {
+        return userService.create(name, mail,password);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public User findByMail(@RequestParam(value = "mail", required = true) String mail) {
-        return userService.findByMail(mail);
+    public Collection<User> findByMail(@RequestParam(value = "mail", required = true) String mail) {
+        List<User> users=  userService.findByMail(mail);
+        return users;
     }
 
     @RequestMapping(value = "/{id}")

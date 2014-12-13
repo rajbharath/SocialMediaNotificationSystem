@@ -14,6 +14,9 @@ import java.util.Arrays;
 @EnableAutoConfiguration
 @ComponentScan
 public class Application {
+    private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/jsp/";
+    private static final String VIEW_RESOLVER_SUFFIX = ".jsp";
+
     public static void main(String[] a) {
         // ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
         ApplicationContext context = SpringApplication.run(Application.class, a);
@@ -24,5 +27,7 @@ public class Application {
             System.out.println(beanName);
         }
 
+
     }
+
 }

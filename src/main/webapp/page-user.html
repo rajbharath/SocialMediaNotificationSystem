@@ -1,0 +1,26 @@
+<div class="container">
+
+    <form class="well form-search">
+        <label>Search:</label>
+        <div ng-model="results">
+        <input ng-model="value" type="text" ng-change="search()" >
+
+            <div ng-repeat="user in results | filter: value">
+                <a href="#/user/{{user.id}}">{{user.mail}}</a>
+
+            </div>
+        </div>
+    </form>
+
+<p>
+id: {{user.id}}
+Username: {{user.name}}
+email: {{user.mail}}
+
+    <a href="#user"  ng-click="" class="btn btn-primary" ng-if="user.id!=1 && user.id!=null">add</a>
+    friends:
+ <div ng-repeat="friend in user.friends | filter: query"><a href="#/user/{{friend.id}}">{{friend.name}} </a> <a href="#user"  ng-click="delete(user.id,friend.id)" class="btn btn-danger">remove</a></div>
+
+</p>
+        Search In Friends: <input ng-model="query">
+</div>

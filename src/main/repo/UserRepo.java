@@ -1,9 +1,11 @@
 package main.repo;
 
 import main.model.User;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -23,10 +25,13 @@ public class UserRepo {
         session.close();
     }
 
-    public User findByMail(String mail) {
+    public List<User> findByMail(String mail) {
         Session session = sessionFactory.openSession();
-        User user = (User) session.createQuery("from User U where mail= :mail").setParameter("mail", mail).uniqueResult();
-        return user;
+        Criteria criteria  = session.createCriteria(User.class);
+        criteria.add(Restrictions.like("mail","%"+mail+"%"));
+        List<User> users = criteria.list();
+        //User user = (User) session.createQuery("from User U where mail= :mail").setParameter("mail", mail).uniqueResult();
+        return users;
     }
 
     public User findById(int id) {
@@ -42,4 +47,5 @@ public class UserRepo {
         session.close();
         return users;
     }
+
 }

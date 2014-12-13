@@ -1,9 +1,14 @@
 package main.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,7 +16,8 @@ import java.util.Collection;
 @ComponentScan(basePackages = "src.main")
 @Entity
 @Table(name = "\"user\"")
-public class User {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "id")
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,10 +27,15 @@ public class User {
     @Column(name = "mail")
     private String mail;
 
-    @Column(name = "name")
+    @Column(name = "username")
     private String name;
 
-    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @Column(name = "password")
+    private String password;
+
+    @JsonManagedReference
+    @JsonBackReference
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "friendship", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "friend_id")})
     private Collection<User> friends = new ArrayList<User>();
 
@@ -62,6 +73,14 @@ public class User {
 
     public void setFriends(Collection<User> friends) {
         this.friends = friends;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }

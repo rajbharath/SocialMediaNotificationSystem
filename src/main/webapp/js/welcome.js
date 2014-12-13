@@ -1,10 +1,12 @@
-var socialMediaModule = angular.module('socialMediaApp',['ng-animate']);
+ 
+var socialMediaModule = angular.module('socialMediaApp',[]);
 
-socialMediaModule.controller('socialMediaController',function($scope,$http){
-var urlBase = "http://localhost:8080/user/"
 
-$http.get(urlBase).success(function(data){
-    $scope.users = data;
+socialMediaModule.controller('welcome',function($scope,$http){
+	$scope.users  = [];
+$http.get('http://localhost:8080/user/').success(function(response){
+    $scope.users = response;
+})
+
 });
 
-});

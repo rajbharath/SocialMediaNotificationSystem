@@ -15,15 +15,16 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
-    public User create(String name, String mail) {
+    public User create(String name, String mail, String password) {
         User user = new User();
         user.setName(name);
         user.setMail(mail);
+        user.setPassword(password);
         userRepo.save(user);
         return findById(user.getId());
     }
 
-    public User findByMail(String mail) {
+    public List<User> findByMail(String mail) {
 //        User user = new User();
 //        user.setId(1);
 //        user.setMail(mail);
@@ -41,4 +42,6 @@ public class UserService {
             System.out.println(user.getName());
         return userRepo.findAll();
     }
+
+
 }
