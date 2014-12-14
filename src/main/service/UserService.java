@@ -44,4 +44,19 @@ public class UserService {
     }
 
 
+    public User addFriend(int userId, int friendId) {
+        User user = userRepo.findById(userId);
+        User friend = userRepo.findById(friendId);
+        user.getFriends().add(friend);
+        userRepo.save(user);
+        return friend;
+    }
+
+    public User deleteFriend(int userId, int friendId) {
+        User user = userRepo.findById(userId);
+        User friend = userRepo.findById(friendId);
+        user.getFriends().remove(friend);
+        userRepo.save(user);
+        return friend;
+    }
 }

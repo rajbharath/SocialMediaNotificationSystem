@@ -37,4 +37,15 @@ public class UserController {
     public Collection<User> findAll(){
         return userService.findAll();
     }
+    @RequestMapping(value = "/{userId}/friend",method = RequestMethod.POST)
+    public User addFriend(@RequestParam(value="friendId",required = true) int friendId,@PathVariable int userId){
+        System.out.println(userId + "sd"+friendId);
+        return userService.addFriend(userId,friendId);
+    }
+
+    @RequestMapping(value = "/{userId}/friend/{friendId}",method = RequestMethod.DELETE)
+    public User deleteFriend(@PathVariable int friendId,@PathVariable int userId){
+        System.out.println(userId + "sd"+friendId);
+        return userService.deleteFriend(userId,friendId);
+    }
 }
