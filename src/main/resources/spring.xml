@@ -9,9 +9,9 @@
 
     <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" autowire="byName">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/SocialNetwork"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="1"/>
+        <property name="url" value="postgres://saccqcpmlueolt:Puxizm7167_WHexLLWd7Dvzl35@ec2-54-83-9-127.compute-1.amazonaws.com:5432/d20cslahh1tcok"/>
+        <property name="username" value="saccqcpmlueolt"/>
+        <property name="password" value="Puxizm7167_WHexLLWd7Dvzl35"/>
     </bean>
 
 
