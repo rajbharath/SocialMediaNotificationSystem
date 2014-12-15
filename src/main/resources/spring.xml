@@ -20,6 +20,7 @@
         <property name="annotatedClasses">
             <list>
                 <value>main.model.User</value>
+                <value>main.model.Post</value>
             </list>
         </property>
         <property name="hibernateProperties">

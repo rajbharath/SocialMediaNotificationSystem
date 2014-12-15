@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Component
 @ComponentScan(basePackages = "src.main")
@@ -38,7 +39,6 @@ public class User implements Serializable {
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "friendship", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "friend_id")})
     private Collection<User> friends = new ArrayList<User>();
-
 
     public User() {
     }
@@ -82,6 +82,7 @@ public class User implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
 
     @Override
     public boolean equals(Object o) {

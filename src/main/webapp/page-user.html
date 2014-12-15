@@ -18,8 +18,15 @@
 
 <div class="container">
 <div class="row">
-    <div class="col-md-4"></div>
-    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div ng-repeat="post in user.posts">
+            <table class="table-responsive">
+                <tr>
+                    <td>{{post.message}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
 <div class="col-md-4">
     <input ng-model="query" placeholder="Search In Friends">
  <div ng-repeat="friend in user.friends | filter: query">

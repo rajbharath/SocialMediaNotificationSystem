@@ -1,5 +1,6 @@
 package main.controller;
 
+import main.model.Post;
 import main.model.User;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,7 @@ public class UserController {
     @RequestMapping(value = "/{userId}/friend/{friendId}",method = RequestMethod.DELETE)
     public User deleteFriend(@PathVariable int friendId,@PathVariable int userId){
         System.out.println(userId + "sd"+friendId);
-        return userService.deleteFriend(userId,friendId);
+        return userService.deleteFriend(userId, friendId);
     }
+
 }

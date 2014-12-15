@@ -1,5 +1,6 @@
 package main.service;
 
+import main.model.Post;
 import main.model.User;
 import main.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class UserService {
 
     @Autowired
     UserRepo userRepo;
+
 
     public User create(String name, String mail, String password) {
         User user = new User();
@@ -59,4 +61,5 @@ public class UserService {
         userRepo.save(user);
         return friend;
     }
+
 }
