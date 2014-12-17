@@ -1,6 +1,5 @@
 package main.controller;
 
-import main.model.Post;
 import main.model.User;
 import main.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,3 +50,4 @@ public class UserController {
     }
 
 }
+

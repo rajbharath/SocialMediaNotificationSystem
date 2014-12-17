@@ -5,7 +5,7 @@
             <input class="navbar-brand" ng-model="value" type="text" ng-change="search()" placeholder="Search">
                 <div ng-repeat="friend in results | filter: value">
                     <a href="#/user/{{friend.id}}" ng-if="user.id!=friend.id && user.id!=null">{{friend.mail}}</a>
-                    <a ng-click="add(user.id,friend.id)" ng-if="user.id!=friend.id && user.id!=null" class="btn btn-primary">add</a>
+                    <a ng-click="add(user.id,friend.id)" ng-if="user.id!=friend.id && user.id!=null" class="btn btn-primary btn-xs">add</a>
                 </div>
             </div>
         </div>
@@ -19,12 +19,20 @@
 <div class="container">
 <div class="row">
     <div class="col-md-8">
-        <div ng-repeat="post in user.posts">
-            <table class="table-responsive">
-                <tr>
-                    <td>{{post.message}}</td>
-                </tr>
-            </table>
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="message" id="message" placeholder="What is on your mind?">
+            </div>
+            <button type="button" class="btn btn-default" ng-click="add_post(user.id,message)">Post</button>
+
+
+                <div class="panel panel-primary" ng-repeat="post in posts">
+                    <div class="panel-heading">
+
+                        <h3 class="panel-title">{{post.user.name}} says: <span class="badge">{{post.createdAt|fromNow}}</span></h3>
+                    </div>
+                    <div class="panel-body">
+                        {{post.message}}
+                    </div>
         </div>
     </div>
 <div class="col-md-4">
@@ -32,8 +40,7 @@
  <div ng-repeat="friend in user.friends | filter: query">
 
      <a href="#/user/{{friend.id}}">{{friend.name}} </a>
-     <a ng-click="delete(user.id,friend.id,$index)" class="btn btn-danger">remove</a>
-
+     <a ng-click="delete(user.id,friend.id,$index)" class="btn btn-danger btn-xs">remove</a>
  </div>
 
 </div>

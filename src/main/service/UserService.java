@@ -1,6 +1,5 @@
 package main.service;
 
-import main.model.Post;
 import main.model.User;
 import main.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,12 +46,22 @@ public class UserService {
 
 
     public User addFriend(int userId, int friendId) {
+        System.out.println(userId+" "+friendId);
         User user = userRepo.findById(userId);
         User friend = userRepo.findById(friendId);
+        for(User user1 : user.getFriends())
+        {
+            System.out.println("friendId: " +user1.getId());
+        }
         user.getFriends().add(friend);
-        userRepo.save(user);
+        for(User user1 : user.getFriends())
+        {
+            System.out.println("friendId: " +user1.getId());
+        }
+        userRepo.update(user);
         return friend;
     }
+
 
     public User deleteFriend(int userId, int friendId) {
         User user = userRepo.findById(userId);

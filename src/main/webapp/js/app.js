@@ -1,5 +1,11 @@
-var socialmediaApp = angular.module('socialmediaApp',['ngRoute','ngAnimate']);
+var socialmediaApp = angular.module('socialmediaApp',['ngRoute','ngAnimate']).
+filter('fromNow',function(){
+return function(date) {
+return moment(date).fromNow();
+}
+});
 var baseUrl = 'http://localhost:8080/#/';
+
 
 socialmediaApp.config(function($routeProvider){
 	$routeProvider
@@ -16,6 +22,7 @@ socialmediaApp.config(function($routeProvider){
 		});
 });
 
+
 //mainController
 socialmediaApp.controller('mainController',function($scope){
 	$scope.pageClass = 'page-home';
@@ -27,7 +34,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
     $rootScope.user = {};
     $scope.results = [];
     $scope.value="";
-
+    $scope.posts = [];
 
 
     $scope.search = function(){
@@ -37,10 +44,16 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
         });
     };
 
+    //GETTING THE USER
     $http.get("http://localhost:8080/user/"+$routeParams.userId).success(function(response){
         $rootScope.user = response;
     });
 
+    //GETTING THE POSTS FOR THAT USER
+    $http.get("http://localhost:8080/user/"+$routeParams.userId+"/posts").success(function(response){
+        $scope.posts = [];
+        $scope.posts = response;
+    });
 
     $scope.add = function(userId,friendId){
      $http.post("http://localhost:8080/user/"+$routeParams.userId+"/friend",{'friendId':friendId},{headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'},
@@ -64,4 +77,20 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
             alert(userId+"  "+friendId);
         });
     };
+
+ $scope.add_post = function(userId,message){
+    $http.post("http://localhost:8080/user/"+userId+"/posts/",{'message':message},{headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'},
+         transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+          str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+          }}).success(function(data){
+                 $scope.posts.splice(0,0,data);
+            }).error(function(){
+                alert('something went wrong');
+            });
+ };
+
+
 });

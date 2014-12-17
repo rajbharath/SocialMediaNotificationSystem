@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -38,7 +37,7 @@ public class User implements Serializable {
     @JsonBackReference
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "friendship", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "friend_id")})
-    private Collection<User> friends = new ArrayList<User>();
+    private List<User> friends = new ArrayList<User>();
 
     public User() {
     }
@@ -67,11 +66,11 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public Collection<User> getFriends() {
+    public List<User> getFriends() {
         return friends;
     }
 
-    public void setFriends(Collection<User> friends) {
+    public void setFriends(List<User> friends) {
         this.friends = friends;
     }
 
