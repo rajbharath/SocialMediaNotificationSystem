@@ -12,10 +12,10 @@
     <mvc:annotation-driven />
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix">
-            <value>/WEB-INF/view/</value>
+            <value>*</value>
         </property>
         <property name="suffix">
-            <value>.jsp</value>
+            <value>*</value>
         </property>
     </bean>
 
