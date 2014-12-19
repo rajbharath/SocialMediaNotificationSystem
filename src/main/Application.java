@@ -12,7 +12,7 @@ import java.util.Arrays;
 @Configuration
 @ImportResource("classpath:/spring.xml")
 @EnableAutoConfiguration
-@ComponentScan(basePackages = "main")
+@ComponentScan(basePackages = {"main/*","main/webapp/*"})
 public class Application {
     private static final String VIEW_RESOLVER_PREFIX = "/WEB-INF/jsp/";
     private static final String VIEW_RESOLVER_SUFFIX = ".jsp";
