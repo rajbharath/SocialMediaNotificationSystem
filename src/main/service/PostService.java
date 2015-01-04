@@ -3,6 +3,7 @@ package main.service;
 import main.model.Post;
 import main.model.User;
 import main.repo.PostRepo;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,9 @@ public class PostService {
         List<User>  users =  user.getFriends();
         users.add(user);
         return postRepo.findByUser(users);
+    }
+
+    public Post findById(int id){
+        return  postRepo.findById(id);
     }
 }

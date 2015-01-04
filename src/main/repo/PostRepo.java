@@ -41,6 +41,12 @@ public class PostRepo {
         session.close();
     }
 
+    public Post findById(int id){
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("from Post P where P.id = :id");
+        query.setParameter("id",id);
+        return (Post) query.uniqueResult();
+    }
     public List<Post> findByUser(List<User> users) {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("from Post P where P.user in :users order by P.createdAt desc");
