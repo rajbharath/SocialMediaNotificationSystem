@@ -81,4 +81,14 @@ public class Post {
         result = 31 * result + (user != null ? user.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id:" + id +
+                ", message:'" + message + '\'' +
+//                ", user:" + user.getId() +
+                ", createdAt:" + createdAt +
+                '}';
+    }
 }

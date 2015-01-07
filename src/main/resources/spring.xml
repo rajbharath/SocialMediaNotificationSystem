@@ -5,13 +5,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:annotation-config/>
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
-
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
-
     <bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" autowire="byName">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-         <property name="url" value="jdbc:postgresql://localhost:5432/SocialNetwork"/>
+        <property name="url" value="jdbc:postgresql://localhost:5432/SocialNetwork"/>
         <property name="username" value="postgres"/>
         <property name="password" value="1"/>
     </bean>
@@ -33,6 +29,5 @@
             </props>
         </property>
     </bean>
-
 
 </beans>

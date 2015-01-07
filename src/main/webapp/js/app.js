@@ -38,16 +38,17 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
   var socket;
 
   var request = {
-    url: '/user/'+$routeParams.userId+'/posts',
+    url: '/users/posts/'+$routeParams.userId,
     contentType: 'application/json',
     logLevel: 'debug',
-    method: 'GET',
-    transport: 'long-polling',
+    shared: true,
+    transport: 'websocket',
     trackMessageLength: true,
-    reconnectInterval: 5000,
+    reconnectInterval: 50000,
     fallbackTransport: 'long-polling',
     enableXDR: true,
-    timeout: 60000
+    timeout: 60000,
+    messageDelimiter: '|'
   };
 
   request.onOpen = function(response){
@@ -70,13 +71,18 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
 //      atmosphere.util.info(errorMsg);
       alert(errorMsg);
       this.fallbackTransport = 'long-polling';
-      this.method = 'GET';
     };
 //
-    request.onMessage = function(response){
-    alert('message');
-    $scope.posts = response.responseBody;
+  request.onMessage = function(response){
+    alert('message'+JSON.stringify(response.responseBody));
+    var post = {};
+    post = JSON.stringify(response.responseBody);
+    alert(post.id +' '+post.message);
+//    var post.id = response.responseBody.id;
+//    var post.message = response.responseBody.message;
+    $scope.posts.splice(0,0,response);
     console.log(response.responseBody);
+    this.onReopen();
   };
 
 //  request.onClose = function(response){
@@ -94,15 +100,19 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
 //
  socket = atmosphereService.subscribe(request);
 
-  getUserPostsAsync = function(){
-            //var me = request;
-//          $scope.$apply(function(){
-            alert('getUserposts');
-            socket.push(JSON.stringify({message: 'message'}));
-          //  $(me).val('');
-//          });
+    getUserPostsAsync = function(data){
+    alert(JSON.stringify(data));
+            socket.push(JSON.stringify({"message":"message"}));
+            var string = JSON.stringify(data, function( key, value) {
+                           if(key == 'user') {
+                             return value.id;
+                           } else {
+                             return value;
+                           };
+                         })
+//            socket.push(string);
   }
-getUserPostsAsync();
+
     $scope.search = function(){
         $scope.results= [];
      $http.get("http://localhost:8080/user?mail="+$scope.value).success(function(response){
@@ -119,8 +129,6 @@ getUserPostsAsync();
     $http.get("http://localhost:8080/user/"+$routeParams.userId+"/posts").success(function(response){
         $scope.posts = [];
         $scope.posts = response;
-
-
     });
 
     $scope.add = function(userId,friendId){
@@ -156,8 +164,9 @@ getUserPostsAsync();
           str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
           return str.join("&");
           }}).success(function(data){
+//                 $scope.posts.splice(0,0,data);
 
-                 $scope.posts.splice(0,0,data);
+                getUserPostsAsync(data);
             }).error(function(){
                 //alert('something went wrong');
             });
