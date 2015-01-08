@@ -102,7 +102,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
 
     getUserPostsAsync = function(data){
     alert(JSON.stringify(data));
-            socket.push(JSON.stringify({"message":"message"}));
+//            socket.push(JSON.stringify({"message":"message", "id":345, "user": {"id":1,"name":"raj"}}));
             var string = JSON.stringify(data, function( key, value) {
                            if(key == 'user') {
                              return value.id;
@@ -110,7 +110,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
                              return value;
                            };
                          })
-//            socket.push(string);
+            socket.push(JSON.stringify(data));
   }
 
     $scope.search = function(){
