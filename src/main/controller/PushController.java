@@ -39,6 +39,7 @@ public class PushController {
     }
 
     @Message(encoders = {JacksonEncoder.class}, decoders = {JacksonDecoder.class})
+    @DeliverTo(DeliverTo.DELIVER_TO.ALL)
     public Post onMessage(Post post) throws ExecutionException, InterruptedException {
         System.out.println("topic" + post.getMessage());
         return post;
