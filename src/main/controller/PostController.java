@@ -5,6 +5,7 @@ import main.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Produces;
 import java.util.List;
 
 @RestController
@@ -16,6 +17,7 @@ public class PostController {
 
 
     @RequestMapping(method = RequestMethod.POST)
+    @Produces("text/plain")
     public Post create(@PathVariable int id, @RequestParam(value = "message") String message) {
         Post post = postService.addPost(id, message);
         return post;

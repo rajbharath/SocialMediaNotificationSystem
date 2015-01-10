@@ -13,6 +13,8 @@ import org.atmosphere.jersey.Broadcastable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
 import javax.ws.rs.core.Context;
 import java.util.concurrent.ExecutionException;
 
@@ -29,19 +31,20 @@ public class PushController {
     @Ready
     @DeliverTo(DeliverTo.DELIVER_TO.BROADCASTER)
     public void onReady(AtmosphereResource resource) {
-        System.out.println("ready"+ resource.uuid());
-        topic = resource.getAtmosphereConfig().getBroadcasterFactory().lookup(resource.uuid(), true);
-        topic.addAtmosphereResource(resource);
-        if (topic == null)
-            System.out.println("null broadcaster");
+//        System.out.println("ready"+ resource.uuid());
+//        topic = resource.getAtmosphereConfig().getBroadcasterFactory().lookup(resource.uuid(), true);
+//        topic.addAtmosphereResource(resource);
+//        if (topic == null)
+//            System.out.println("null broadcaster");
 
 
     }
 
     @Message(encoders = {JacksonEncoder.class}, decoders = {JacksonDecoder.class})
     @DeliverTo(DeliverTo.DELIVER_TO.ALL)
+    @Consumes("application/json")
+    @POST
     public Post onMessage(Post post) throws ExecutionException, InterruptedException {
-        System.out.println("topic" + post.getMessage());
         return post;
     }
 

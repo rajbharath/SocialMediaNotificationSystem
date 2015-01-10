@@ -39,7 +39,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
 
   var request = {
     url: '/users/posts/'+$routeParams.userId,
-    contentType: 'application/json',
+    contentType: 'json',
     logLevel: 'debug',
     shared: true,
     transport: 'websocket',
@@ -49,6 +49,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
     enableXDR: true,
     timeout: 60000,
     messageDelimiter: '|'
+
   };
 
   request.onOpen = function(response){
@@ -63,54 +64,31 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
     };
 
     request.onReopen = function(response){
-      // alert('reopen');
     };
-//
-//    //For demonstration of how you can customize the fallbackTransport using the onTransportFailure function
+
     request.onTransportFailure = function(errorMsg, request){
-//      atmosphere.util.info(errorMsg);
       alert(errorMsg);
       this.fallbackTransport = 'long-polling';
     };
-//
+
   request.onMessage = function(response){
-    alert('message'+JSON.stringify(response.responseBody));
+    console.log(JSON.stringify(response.responseBody));
     var post = {};
-    post = JSON.stringify(response.responseBody);
-    alert(post.id +' '+post.message);
-//    var post.id = response.responseBody.id;
-//    var post.message = response.responseBody.message;
-    $scope.posts.splice(0,0,response);
+    post = JSON.parse(response.responseBody);
+    $scope.posts.splice(0,0,post);
     console.log(response.responseBody);
     this.onReopen();
   };
 
-//  request.onClose = function(response){
-//    //alert('close');
-//    //socket.push(atmosphere.util.stringifyJSON({ author: $scope.model.name, message: 'disconnecting' }));
-//  };
-//
-  request.onError = function(response){
-    //alert('error');
-  };
-//
-  request.onReconnect = function(request, response){
-    //alert('reconnect');
-  };
-//
+
  socket = atmosphereService.subscribe(request);
 
     getUserPostsAsync = function(data){
-    alert(JSON.stringify(data));
-            socket.push(JSON.stringify({"message":"message", "id":3345, "user": {"id":1,"name":"raj"}}));
-            var string = JSON.stringify(data, function( key, value) {
-                           if(key == 'user') {
-                             return value.id;
-                           } else {
-                             return value;
-                           };
-                         })
-//            socket.push(JSON.stringify(data));
+    console.log(JSON.stringify(data));
+        data.user.friends = [];
+        console.log(JSON.stringify(data));
+//      socket.push(JSON.stringify({"id":516,"message":"asda","user":{"id":1,"mail":"raj@priya.com","name":"rajpriya","password":"1","friends":[{"id":6,"mail":"prabu@gmail.com","name":"prabu","password":"1","friends":[1]},{"id":7,"mail":"ramya@gmail.com","name":"ramya","password":"1","friends":[{"id":8,"mail":"gautham@gmail.com","name":"gautham","password":"1","friends":[{"id":10,"mail":"ganes@gmail.com","name":"ganes","password":"1","friends":[]}]}]},8,10]},"createdAt":1420912674189}));
+        socket.push(JSON.stringify(data));
   }
 
     $scope.search = function(){
@@ -156,7 +134,6 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
     };
 
  $scope.add_post = function(userId,message){
-//socket.push(JSON.stringify({'message':message}));
     $http.post("http://localhost:8080/user/"+userId+"/posts/",{'message':message},{headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'},
          transformRequest: function(obj) {
           var str = [];
@@ -165,13 +142,10 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
           return str.join("&");
           }}).success(function(data){
 //                 $scope.posts.splice(0,0,data);
-
                 getUserPostsAsync(data);
             }).error(function(){
-                //alert('something went wrong');
+                alert('something went wrong');
             });
-
-
  };
 
 });

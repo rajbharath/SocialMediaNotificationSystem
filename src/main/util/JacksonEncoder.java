@@ -6,7 +6,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 
-
 public class JacksonEncoder implements Encoder<Post, String> {
 
     private final ObjectMapper mapper = new ObjectMapper();
