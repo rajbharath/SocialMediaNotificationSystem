@@ -34,6 +34,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
     $scope.results = [];
     $scope.value="";
     $scope.posts = [];
+    $scope.activities = [];
 
   var socket;
 
@@ -53,7 +54,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
   };
 
   request.onOpen = function(response){
-    alert('connected');
+//    alert('connected');
   };
 
     request.onClientTimeout = function(response){
@@ -83,9 +84,9 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
 
  socket = atmosphereService.subscribe(request);
 
-    getUserPostsAsync = function(data){
-    console.log(JSON.stringify(data));
-        data.user.friends = [];
+    getUserPostsAsync = function(data) {
+        console.log(JSON.stringify(data));
+//        data.user.friends = [];
         console.log(JSON.stringify(data));
 //      socket.push(JSON.stringify({"id":516,"message":"asda","user":{"id":1,"mail":"raj@priya.com","name":"rajpriya","password":"1","friends":[{"id":6,"mail":"prabu@gmail.com","name":"prabu","password":"1","friends":[1]},{"id":7,"mail":"ramya@gmail.com","name":"ramya","password":"1","friends":[{"id":8,"mail":"gautham@gmail.com","name":"gautham","password":"1","friends":[{"id":10,"mail":"ganes@gmail.com","name":"ganes","password":"1","friends":[]}]}]},8,10]},"createdAt":1420912674189}));
         socket.push(JSON.stringify(data));
@@ -108,6 +109,13 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
         $scope.posts = [];
         $scope.posts = response;
     });
+
+       //GETTING THE ACTIVITIES FOR THAT USER
+        $http.get("http://localhost:8080/user/"+$routeParams.userId+"/activities").success(function(response){
+            $scope.activities = [];
+            $scope.activities = response;
+        });
+
 
     $scope.add = function(userId,friendId){
 
@@ -147,6 +155,23 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
                 alert('something went wrong');
             });
  };
+
+$scope.create_like = function(userId,postId){
+
+     $http.post("http://localhost:8080/user/"+userId+"/activities/",{'postId':postId,'activityType':'like'},{headers:{'Content-Type':'application/x-www-form-urlencoded','Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'},
+             transformRequest: function(obj) {
+              var str = [];
+              for(var p in obj)
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+              return str.join("&");
+              }}).success(function(data){
+    //                 $scope.posts.splice(0,0,data);
+//                    getUserPostsAsync(data);
+                    alert("success");
+                }).error(function(){
+                    alert('something went wrong');
+                });
+};
 
 });
 

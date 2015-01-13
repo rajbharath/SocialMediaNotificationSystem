@@ -19,6 +19,8 @@
             <list>
                 <value>main.model.User</value>
                 <value>main.model.Post</value>
+                <value>main.model.Activity</value>
+                <value>main.model.Notification</value>
             </list>
         </property>
         <property name="hibernateProperties">

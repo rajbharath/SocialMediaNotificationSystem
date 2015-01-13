@@ -83,11 +83,12 @@ public class Post {
     }
 
     @Override
+    @com.fasterxml.jackson.annotation.JsonIgnore
     public String toString() {
         return "Post{" +
                 "id:" + id +
                 ", message:'" + message + '\'' +
-//                ", user:" + user.getId() +
+                ", user:" + user.getId() +
                 ", createdAt:" + createdAt +
                 '}';
     }

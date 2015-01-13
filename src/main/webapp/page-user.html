@@ -2,47 +2,64 @@
     <div class="container">
         <div class="navbar-header">
             <div ng-model="results">
-            <input class="navbar-brand" ng-model="value" type="text" ng-change="search()" placeholder="Search">
+                <input class="navbar-brand" ng-model="value" type="text" ng-change="search()" placeholder="Search">
+
                 <div ng-repeat="friend in results | filter: value">
                     <a href="#/user/{{friend.id}}" ng-if="user.id!=friend.id && user.id!=null">{{friend.mail}}</a>
-                    <a ng-click="add(user.id,friend.id)" ng-if="user.id!=friend.id && user.id!=null" class="btn btn-primary btn-xs">add</a>
+                    <a ng-click="add(user.id,friend.id)" ng-if="user.id!=friend.id && user.id!=null"
+                       class="btn btn-primary btn-xs">add</a>
                 </div>
             </div>
         </div>
 
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="../navbar/">{{user.name}}</a></li>
-            </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="../navbar/">{{user.name}}</a></li>
+        </ul>
     </div>
 </nav>
 
 <div class="container">
-<div class="row">
-    <div class="col-md-8">
+    <div class="row">
+        <div class="col-md-8">
             <div class="form-group">
-                <input type="text" class="form-control" ng-model="message" id="message" placeholder="What is on your mind?">
+                <input type="text" class="form-control" ng-model="message" id="message"
+                       placeholder="What is on your mind?">
             </div>
             <button type="button" class="btn btn-default" ng-click="add_post(user.id,message)">Post</button>
 
 
-                <div class="panel panel-primary" ng-repeat="post in posts">
-                    <div class="panel-heading">
+            <div class="panel panel-primary" ng-repeat="post in posts">
+                <div class="panel-heading">
 
-                        <h3 class="panel-title">{{post.user.name}} says: <span class="badge">{{post.createdAt|fromNow}}</span></h3>
+                    <h3 class="panel-title">{{post.user.name}} says: <span
+                            class="badge">{{post.createdAt|fromNow}}</span></h3>
+                </div>
+                <div class="panel-body">
+                    {{post.message}}
+                    <br>
+
+
+                    <p>
+                        <a href="#/user/{{activity.user.id}}"
+                           ng-repeat="activity in filteredActivities = (activities | filter: {'activityType':'LIKE', 'post' : post})">{{activity.user.id}}</a>
+                    <div ng-if="filteredActivities.length !=0">
+                        <h5 class="btn btn-default"  ng-repeat="activity in filteredActivities| 'post':post"> {{activity.user.id}} {{activity.post.id}} people liked this</h5>
                     </div>
-                    <div class="panel-body">
-                        {{post.message}}
-                    </div>
+                    </p>
+
+                    <a class="btn btn-primary" ng-click="create_like(user.id,post.id)">like</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <input ng-model="query" placeholder="Search In Friends">
+
+            <div ng-repeat="friend in user.friends | filter: query">
+
+                <a href="#/user/{{friend.id}}">{{friend.name}} </a>
+                <a ng-click="delete(user.id,friend.id,$index)" class="btn btn-danger btn-xs">remove</a>
+            </div>
+
         </div>
     </div>
-<div class="col-md-4">
-    <input ng-model="query" placeholder="Search In Friends">
- <div ng-repeat="friend in user.friends | filter: query">
-
-     <a href="#/user/{{friend.id}}">{{friend.name}} </a>
-     <a ng-click="delete(user.id,friend.id,$index)" class="btn btn-danger btn-xs">remove</a>
- </div>
-
-</div>
-</div>
 </div>
