@@ -26,8 +26,6 @@
                        placeholder="What is on your mind?">
             </div>
             <button type="button" class="btn btn-default" ng-click="add_post(user.id,message)">Post</button>
-
-
             <div class="panel panel-primary" ng-repeat="post in posts">
                 <div class="panel-heading">
 
@@ -37,17 +35,12 @@
                 <div class="panel-body">
                     {{post.message}}
                     <br>
-
-
-                    <p>
-                        <a href="#/user/{{activity.user.id}}"
-                           ng-repeat="activity in filteredActivities = (activities | filter: {'activityType':'LIKE', 'post' : post})">{{activity.user.id}}</a>
-                    <div ng-if="filteredActivities.length !=0">
-                        <h5 class="btn btn-default"  ng-repeat="activity in filteredActivities| 'post':post"> {{activity.user.id}} {{activity.post.id}} people liked this</h5>
+                    <div ng-repeat="post in filteredByPost = (activities | filter : post.id) "></div>
+                    {{filteredByPost.length}} persons like this post.
+                    <div ng-repeat="ac in filteredByUser = (filteredByPost | filter : user.id) ">
+                    <div ng-if="ac.user == user.id || ac.user.id == user.id">you liked post<a class="btn btn-primary" ng-click="delete_like(user.id,post.id)">unlike</a></div>
                     </div>
-                    </p>
-
-                    <a class="btn btn-primary" ng-click="create_like(user.id,post.id)">like</a>
+                        {{filteredByUser.length}}
                 </div>
             </div>
         </div>

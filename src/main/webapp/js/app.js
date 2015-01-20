@@ -114,6 +114,7 @@ socialmediaApp.controller('userController',function($scope,$routeParams,$http,$r
         $http.get("http://localhost:8080/user/"+$routeParams.userId+"/activities").success(function(response){
             $scope.activities = [];
             $scope.activities = response;
+            console.log(JSON.stringify($scope.activities));
         });
 
 
@@ -172,6 +173,7 @@ $scope.create_like = function(userId,postId){
                     alert('something went wrong');
                 });
 };
+
 
 });
 

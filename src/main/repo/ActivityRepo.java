@@ -56,4 +56,11 @@ public class ActivityRepo {
         session.close();
         return activities;
     }
+
+    public List<Activity> findBy(List<User> users) {
+        Session session = sessionFactory.openSession();
+        List<Activity> activities = session.createQuery("from Activity A where A.user in :users").setParameterList("users", users).list();
+        session.close();
+        return activities;
+    }
 }

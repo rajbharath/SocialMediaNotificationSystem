@@ -36,6 +36,8 @@ public class ActivityService {
 
     public List<Activity> findBy(int userId) {
         User user = userService.findById(userId);
-        return activityRepo.findBy(user);
+        List<User>  users =  user.getFriends();
+        users.add(user);
+        return activityRepo.findBy(users);
     }
 }
