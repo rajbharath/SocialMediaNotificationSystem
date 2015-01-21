@@ -20,6 +20,11 @@ public class ActivityController {
         activityService.addActivity(userId, postId, Calendar.getInstance().getTime(), activityType);
     }
 
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void delete(@RequestParam(value = "id") int activityId) {
+        activityService.deleteActivity(activityId);
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public List<Activity> findBy(@PathVariable int userId) {
         return activityService.findBy(userId);

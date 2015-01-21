@@ -31,7 +31,6 @@ public class ActivityService {
         activity.setCreated(created);
         activity.setActivityType(ActivityType.valueOf(activityType.toUpperCase()));
         activityRepo.save(activity);
-
     }
 
     public List<Activity> findBy(int userId) {
@@ -39,5 +38,10 @@ public class ActivityService {
         List<User>  users =  user.getFriends();
         users.add(user);
         return activityRepo.findBy(users);
+    }
+
+    public void deleteActivity(int activityId) {
+        Activity activity = activityRepo.findBy(activityId);
+        activityRepo.delete(activity);
     }
 }

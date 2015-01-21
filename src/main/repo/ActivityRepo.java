@@ -63,4 +63,11 @@ public class ActivityRepo {
         session.close();
         return activities;
     }
+
+    public Activity findBy(int activityId) {
+        Session session = sessionFactory.openSession();
+        Activity activity = (Activity) session.createQuery("from Activity A where A.id = :id").setParameter("id", activityId).uniqueResult();
+        session.close();
+        return activity;
+    }
 }
